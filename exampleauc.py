@@ -20,7 +20,7 @@ def readxlsx(inputfile):
         curr_rows+=1
         #row=worksheet.row(curr_rows)
         score.append(worksheet.cell_value(curr_rows,0))
-        act_class.append(worksheet.cell_value(curr_rows,1)+1)
+        act_class.append(worksheet.cell_value(curr_rows,1))
     return np.concatenate((np.array([score]),np.array([act_class])),axis=0)
     
 def main():
@@ -31,7 +31,7 @@ def main():
     act_class_sorted=datasorted[1,:]
         
     '''calculating ROC AUC'''
-    fpr_sorted,tpr_sorted,thresholds_sorted=metrics.roc_curve(act_class_sorted,score_sorted,pos_label=2)
+    fpr_sorted,tpr_sorted,thresholds_sorted=metrics.roc_curve(act_class_sorted,score_sorted)
     aucvalue_sorted=metrics.auc(fpr_sorted,tpr_sorted)
     print 'AUC value of sorted data'
     print aucvalue_sorted
@@ -46,7 +46,7 @@ def main():
     act_class_unsorted=dataunsorted[1,:]
         
     '''calculating ROC AUC'''
-    fpr_unsorted,tpr_unsorted,thresholds_unsorted=metrics.roc_curve(act_class_unsorted,score_unsorted,pos_label=2)
+    fpr_unsorted,tpr_unsorted,thresholds_unsorted=metrics.roc_curve(act_class_unsorted,score_unsorted)
     aucvalue_unsorted=metrics.auc(fpr_unsorted,tpr_unsorted)
     print 'AUC value of sorted data'
     print aucvalue_unsorted
